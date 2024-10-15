@@ -1,0 +1,224 @@
+/* Header.css */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.header-container {
+    
+    font-family: Arial, sans-serif;
+  }
+  
+  .top-bar {
+    
+	--tw-bg-opacity: 1;
+    background-color: rgb(0, 94, 162);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  
+  .top-links a, .language-options a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 14px;
+  }
+  
+  .top-links a:hover, .language-options a:hover {
+    text-decoration: underline;
+  }
+  
+  .main-header {
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    align-items: top;
+    background: url('') no-repeat center;
+    padding: 20px 0;
+    background-size: cover;
+    background-image:linear-gradient(0deg, rgba(41, 52, 59, 0.03) 0%, rgba(2, 78, 132, 0.771) 100%);
+  }
+  
+  .logo img {
+    width: 80px;
+    height: auto;
+    margin-left: 10px;
+    /* left: -600px; */
+    top: 0;
+  }
+  
+  .institute-name h1 {
+    font-size: 28px;
+    font-style: italic;
+  }
+  
+  .institute-name h2 {
+    font-size: 24px;
+    color: #555;
+  }
+  
+  .navbar {
+    /* top: 0; */
+    /* margin-top: 0px; */
+    background-color: rgba(0, 94, 162, 0.068);
+    padding: 10px 0;
+  }
+  
+  .navbar ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar li {
+    margin-right: 30px;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+  
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+  
+  .slider{
+	height: 100px;
+    width: 300px;
+	/* background-color: #293132; */
+	text-align: left;
+	position: relative;
+	/* animation: slideColor 6s forwards infinite; */
+    /* background-color: ; */
+}
+
+.caption {
+    line-height: 50px;
+    width: 100%;
+    /* left: -400px; */
+    font-size: 40px;
+    color: #fff;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, .25);
+    /* text-align: center; Center-aligns text */
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
+.text-box {
+    width: 100%;
+    position: relative;
+    display: flex;
+    /* justify-content: center; Centers items horizontally */
+    /* align-items: center; Centers items vertically */
+}
+
+.text-box div {
+    width: 100%;
+    text-align: center; /* Center-aligns the text inside */
+    position: absolute;
+    top: -200px;
+    transform: rotateX(-90deg);
+    opacity: 0;
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, .25);
+    animation-timing-function: ease;
+}
+
+
+.text-box div:nth-child(1){
+	animation: rollDown 6s forwards infinite;
+}
+
+.text-box div:nth-child(2){
+	animation: rollDown2 6s forwards infinite;
+}
+
+@keyframes rollDown {
+	0%{
+		top: -200px;
+		transform: rotateX(-90deg);
+	}
+	11%{.text-box {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+}
+
+.text-box div {
+    width: 100%;
+    text-align: center; /* Center-aligns the text inside */
+    position: absolute;
+    top: -200px;
+    transform: rotateX(-90deg);
+    opacity: 0;
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, .25);
+    animation-timing-function: ease;
+}
+
+		top: -74px;
+		transform: rotateX(0deg);
+		opacity: 1;
+	}
+	22%{
+		top: -74px;
+		transform: rotateX(0deg);
+		opacity: 1;
+	}
+	33%{
+		top: 50px;
+		transform: rotateX(30deg);
+		opacity: 0;
+	}
+}
+
+@keyframes rollDown2 {
+	33%{
+		top: -200px;
+		transform: rotateX(-90deg);
+	}
+	44%{
+		top: -74px;
+		transform: rotateX(0deg);
+		opacity: 1;
+	}
+	55%{
+		top: -74px;
+		transform: rotateX(0deg);
+		opacity: 1;
+	}
+	66%{
+		top: 50px;
+		transform: rotateX(30deg);
+		opacity: 0;
+	}
+}
+
+
+
+/* @keyframes slideColor{
+	0%{
+		background-color: #387780;
+	}
+	33%{
+		background-color: #3f88c5;
+	}
+	66%{
+		background-color: #588b8b;
+	}
+	100%{
+		background-color: #387780;
+	}
+} */
