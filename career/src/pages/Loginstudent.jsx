@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/login.css';
 
-const Login = () => {
+const LoginStudent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,9 +17,9 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Admin Login</h2>
+      <h2>student Login</h2>
       <form onSubmit={handleLogin}>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Username(Institiute ID):</label>
         <input
           type="text"
           id="username"
@@ -43,4 +43,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginStudent;
