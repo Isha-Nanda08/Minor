@@ -22,6 +22,7 @@ const Header = () => {
       </div>
 
       <div className="main-header">
+        <div className="header-content">
         <div className="logo">
           <img src="/assets/images/logo_250.png" alt="Logo"  />
         </div>
@@ -34,21 +35,53 @@ const Header = () => {
 			<div>BE an Nitian</div>
 		</div>
 	</div>
+    </div>
 </div>
         </div>
 
       <nav className="navbar">
         <ul>
-          <li><a href="#">Academics</a></li>
-          <li><a href="#">Admissions</a></li>
-          <li><a href="#">For Students</a></li>
-          <li><a href="#">For Faculty and Staff</a></li>
-          <li><a href="#">Research</a></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">ATS score</a></li>
+          <li><a href="#">Contact</a></li>
           <li><a href="#">Alumni</a></li>
-          <li><a href="#">Resources</a></li>
-          <li><a href="#">Administration</a></li>
+          <li><a href="#">More</a></li>
+          <li><a href="#">Login</a></li>
         </ul>
       </nav>
+      <div className="name">
+        <div className="web">
+            <p class="webname">carrer connect</p>
+            <p class="webdesc">A portal by NIT Jalandhar which provides all the information regarding the statistics about
+                institute's placements and updates students with upcoming opportunities
+                and also provides students to contact TPO, PRs and IRs.
+            </p>
+        </div>
+      </div>
+      <div className="info-sections">
+        <div className="info-card research">
+          <h3>PLACEMENTS</h3>
+          <img src="/assets/icons/research-icon.png" alt="Research Icon" />
+          {/* <p>Mapping the Innovations</p> */}
+        </div>
+        <div className="info-card startups">
+          <h3>INTERNSHIPS</h3>
+          <img src="/assets/icons/startups-icon.png" alt="Startups Icon" />
+          {/* <p>Success stories of researchers</p> */}
+        </div>
+        <div className="info-card news">
+          <h3>WHY RECRUIT?</h3>
+          <img src="/assets/icons/news-icon.png" alt="News Icon" />
+          {/* <p>Panorama of Events</p> */}
+        </div>
+        <div className="info-card abu-dhabi">
+          <h3>PEOPLE</h3>
+          <img src="/assets/icons/abu-dhabi-icon.png" alt="Abu Dhabi Icon" />
+          {/* <p>Innovate. Inspire. Transform. Discover</p> */}
+        </div>
+      </div>
     </div>
     </header>
   )
