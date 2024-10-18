@@ -20,7 +20,6 @@ const ATSscore = () => {
     if (selectedFile) {
       // Placeholder upload function (replace with actual upload logic)
       setUploadStatus('Uploading...');
-      
       // Simulating a delay for the upload
       setTimeout(() => {
         setUploadStatus('File uploaded successfully!');
@@ -33,7 +32,7 @@ const ATSscore = () => {
 
   return (
     <div className="file-upload-container">
-      <h2>Upload Your ATS Score PDF</h2>
+      <h2>Upload Your Resume</h2>
       <form onSubmit={handleUpload}>
         <input
           type="file"
