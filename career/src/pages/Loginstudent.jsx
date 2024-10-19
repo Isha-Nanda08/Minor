@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../styles/login.css';
 
 const LoginStudent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Here you can handle login logic for IR or PR
     if (username === 'admin' && password === 'password123') {
       alert('Login successful as IR/PR');
+      navigate('/pr-board'); // Navigate to the PR board or any desired route
     } else {
       alert('Invalid credentials');
     }
@@ -17,9 +20,9 @@ const LoginStudent = () => {
 
   return (
     <div className="login-container">
-      <h2>student Login</h2>
+      <h2>Student Login</h2>
       <form onSubmit={handleLogin}>
-        <label htmlFor="username">Username(Institiute ID):</label>
+        <label htmlFor="username">Username(Institute ID):</label>
         <input
           type="text"
           id="username"
