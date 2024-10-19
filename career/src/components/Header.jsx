@@ -7,13 +7,14 @@ const Header = () => {
     <header className="header-container">
       <div className="top-bar">
         <div className="top-links">
-          <a href="#">Jobs</a>
-          <a href="#">Calendar</a>
-          <a href="#">Tenders</a>
-          <a href="#">Payment Gateway</a>
-          <a href="#">Recruiters/Careers</a>
-          <a href="#">IGES</a>
-          <a href="#">ICC</a>
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Dashboard</a>
+          <a href="#">ATS score</a>
+          <a href="#">Contact</a>
+          <a href="#">Alumini</a>
+          <a href="#">More</a>
+          <a href="#">Main-site</a>
         </div>
         <div className="language-options">
           <a href="#">Hindi</a> / <a href="#">A-</a> <a href="#">A+</a>
@@ -31,26 +32,15 @@ const Header = () => {
 	    <div class="caption">
 		
 		<div class="text-box">
-			<div>NIT Jalandhar</div>
-			<div>BE an Nitian</div>
+			<div>Dr. B.R. Ambedkar National Institute of Technology,Jalandhar</div>
+			<div>डॉ बी आर अंबेडकर राष्ट्रीय प्रौद्योगिकी संस्थान जालंधर</div>
 		</div>
 	</div>
     </div>
 </div>
         </div>
 
-      <nav className="navbar">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">ATS score</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Alumni</a></li>
-          <li><a href="#">More</a></li>
-          <li><a href="#">Login</a></li>
-        </ul>
-      </nav>
+      
       <div className="name">
         <div className="web">
             <p class="webname">carrer connect</p>

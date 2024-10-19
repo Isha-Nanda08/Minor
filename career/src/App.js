@@ -1,6 +1,7 @@
 
 import Header from "./components/Header";
 import ATSPage from "./pages/ATSPage";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import PlacementCellApproval from "./pages/PlacementCellApproval";
 import Pr_ir from "./pages/Pr_ir";
@@ -12,13 +13,14 @@ import PrSubmitNotification from "./pages/PrSubmitNotification";
 function App() {
   return (
     <div className="App">
-      {/* <Home/> */}
+      <Home/>
       {/* <Login/> */}
       {/* <ATSPage/> */}
       {/* <Pr_ir/> */}
       {/* <PrSubmitNotification/> */}
       {/* <PlacementCellApproval/> */}
-      <PrIrDash/>
+      {/* <PrIrDash/> */}
+      {/* <Dashboard/> */}
 
       
     

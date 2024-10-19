@@ -7,8 +7,10 @@ import React, { useEffect } from 'react';
 import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
+import zIndex from '@mui/material/styles/zIndex';
 
 const styles = {
+    zIndex:-100,
     bgColor: 'white',
     titleTextColor: "black",
     rowTitleColor: "#2F58CD",
