@@ -11,14 +11,17 @@ h2 {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
+  text-align: left;
+  left: 0%;
 }
 
 .horizontal-scroll-container {
   width: 100%;
   overflow: hidden; /* Hide overflowing content */
-  background-color: #fff;
+  /* background-color: #fff; */
   border: 1px solid #ddd;
   padding: 15px 0;
+  background-color: #215c9b9b;
 }
 
 .scroll-content {
@@ -46,14 +49,17 @@ h2 {
 }
 
 .info .desc {
-  font-size: 16px;
+  font-size: 20px;
   color: #555;
+  font-weight: 600;
 }
 
 .info .pr-name, .info .branch {
   font-size: 14px;
   color: #888;
   margin-top: 10px;
+  /* margin-left: 40px; */
+  text-align: right;
 }
 
 
@@ -70,6 +76,7 @@ h2 {
   margin-bottom: 15px;
   font-size: 1.4em;
   color: #007bff;
+  
 }
 
 .question {
