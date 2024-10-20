@@ -10,12 +10,14 @@ import PrIrDash from "./pages/pr_irdash";
 import PrSubmitNotification from "./pages/PrSubmitNotification";
 import Login from "./pages/Login";
 import Loginstudent from "./pages/Loginstudent";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="App">
       <Router>
         {/* <Header /> */}
+        <Navbar/>
 
         {/* Define routes */}
         <Routes>

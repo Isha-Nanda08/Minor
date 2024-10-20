@@ -3,14 +3,14 @@ import '../styles/header.css'
 // import '../../public/assets/images/logo_250.png'
 
 const Header = () => {
-  const handleDropdown = () => {
-    const dropdown = document.querySelector('.dropdown-content');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-  };
+//   const handleDropdown = () => {
+//     const dropdown = document.querySelector('.dropdown-content');
+//     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+//   };
   
   return (
     <header className="header-container">
-      <div className="top-bar">
+      {/* <div className="top-bar">
         <div className="top-links">
           <a href="#">Home</a>
           <a href="#">About</a>
@@ -32,7 +32,7 @@ const Header = () => {
           <a href="#">Hindi</a> / <a href="#">A-</a> <a href="#">A+</a>
           <a href="#">NITJ Email</a>
         </div>
-      </div>
+      </div> */}
 
       <div className="main-header">
         <div className="header-content">
