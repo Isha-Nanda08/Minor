@@ -3,6 +3,7 @@ import { Grid, Select, MenuItem, FormControl, InputLabel, Alert, Stack } from '@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { motion } from 'framer-motion';
 import '../styles/Dashboard.css';  // Create this file to apply custom CSS
+import CompanyCalendar from '../components/CompanyCalender';
 
 const Dashboard = () => {
   // States for filters
@@ -27,6 +28,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+    
       <div className="container3 mt-4">
         <motion.h1 initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.2 }}>
           Company Dashboard Details
@@ -35,6 +37,7 @@ const Dashboard = () => {
       <marquee className="marquee-text">
         New Companies For Different Streams In Institute. Do Check It!!!
       </marquee>
+      <CompanyCalendar/>
       <div className='filters container' style={{ height: "90px" }}>
                 <div className="row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                     <div className="col col-sm-12" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -80,6 +83,7 @@ const Dashboard = () => {
         </Alert>
       </Stack>
       {/* Optional: Company details can go here */}
+     
     </div>
   );
 };

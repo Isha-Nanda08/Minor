@@ -11,6 +11,7 @@ import PrSubmitNotification from "./pages/PrSubmitNotification";
 import Login from "./pages/Login";
 import Loginstudent from "./pages/Loginstudent";
 import Navbar from "./components/Navbar";
+import CompanyCalendar from "./components/CompanyCalender";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/pr-submit-notification" element={<PrSubmitNotification />} />
           <Route path="/login" element={<Login />} />
           <Route path="/loginstudent" element={<Loginstudent />} />
+          <Route path="/calender" element={<CompanyCalendar />} />
         </Routes>
       </Router>
     </div>

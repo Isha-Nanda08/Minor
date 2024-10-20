@@ -14,9 +14,10 @@
     font-size: 16px;
   }
   .filters {
+    margin-top: 50%;
     display: flex;
     margin: 10px 0;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
@@ -33,6 +34,7 @@
     text-align: center;
     transition: all 0.4s ease-in-out;
     margin: 0 20px;
+    margin-top: 40px;
   }
   
   .filters select:hover {
