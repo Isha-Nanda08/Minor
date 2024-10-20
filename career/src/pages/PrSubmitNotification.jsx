@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../styles/pr_submit_notification.css'; // CSS for the form
 
 const PrSubmitNotification = () => {
+  const navigate = useNavigate(); // Initialize the navigation hook
+
   // State to handle notification inputs
   const [newNotification, setNewNotification] = useState({
     name: '',
@@ -28,7 +31,12 @@ const PrSubmitNotification = () => {
 
     // Clear the form after submission
     setNewNotification({ name: '', branch: '', desc: '' });
+
+    // Show alert for submission success
     alert('Notification submitted to the waiting list for approval!');
+
+    // Navigate to the admin approval page
+    navigate('/placement-cell-approval');
   };
 
   return (

@@ -1,112 +1,146 @@
-.notify-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    overflow: hidden;
-    background-color: #f7fafc;
+.dashboard {
+  padding: 20px;
+  background-color: #f8f9fa;
 }
 
-.notifications {
-    display: flex;
-    flex-wrap: nowrap;
-    animation: scroll 20s linear infinite;
+.section {
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.horizontal-scroll-container {
+  width: 100%;
+  overflow: hidden; /* Hide overflowing content */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px 0;
+}
+
+.scroll-content {
+  display: flex;
+  gap: 20px; /* Space between notifications */
+  animation: scroll 20s linear infinite; /* Animation to scroll horizontally */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .info {
-    background-color: #b5b9c07b;
-    color: rgb(3, 3, 3);
-    padding: 30px;
-    margin-right: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    font-size: 20px;
-    text-align: center;
-    min-width: 250px;
-    flex-shrink: 0;
-    border: 2px solid #243670;
+  min-width: 200px; /* Set a fixed width for each notification */
+  background-color: white;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.pr-name {
-    margin-top:80px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: right;
+.info .desc {
+  font-size: 16px;
+  color: #555;
 }
 
-.branch {
-    font-size: 18px;
-    margin-bottom: 8px;
-    text-align: right;
+.info .pr-name, .info .branch {
+  font-size: 14px;
+  color: #888;
+  margin-top: 10px;
 }
 
-.desc {
-    font-size: 26px;
-    color: #0f0f0f;
+
+.student-questions, .post-notification, .raise-query {
+  width: 80%;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Infinite scrolling animation */
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.student-questions h2, .post-notification h2, .raise-query h2 {
+  margin-bottom: 15px;
+  font-size: 1.4em;
+  color: #007bff;
 }
-.notification-form {
-    margin-top: 20px;
-    background-color: #edf2f7;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .notification-form h3 {
-    margin-bottom: 15px;
-    color: #2d3748;
-    font-size: 20px;
-  }
-  
-  .notification-form form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .notification-form input {
+
+.question {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+
+.question-text {
+  font-weight: bold;
+  color: #333;
+}
+
+.student-name {
+  font-style: italic;
+  color: #777;
+}
+
+.post-notification button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.post-notification button:hover {
+  background-color: #0056b3;
+}
+
+.raise-query form {
+  display: flex;
+  flex-direction: column;
+}
+
+.raise-query textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+  height: 100px;
+  font-size: 1em;
+  resize: none;
+}
+
+.raise-query button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.raise-query button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .dashboard {
     padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e0;
-    font-size: 16px;
-    outline: none;
   }
-  
-  .notification-form input:focus {
-    border-color: #4a5568;
+
+  .notify-container, .student-questions, .post-notification, .raise-query {
+    width: 100%;
   }
-  
-  .notification-form button {
-    padding: 10px;
-    background-color: #4a5568;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .notification-form button:hover {
-    background-color: #2d3748;
-  }
-  
-  
-  
-  @media (max-width: 768px) {
-    .notifications {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
+}

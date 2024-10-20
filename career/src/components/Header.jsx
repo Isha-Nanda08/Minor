@@ -1,12 +1,17 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
 import '../styles/header.css'
 // import '../../public/assets/images/logo_250.png'
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
 
 const Header = () => {
 //   const handleDropdown = () => {
 //     const dropdown = document.querySelector('.dropdown-content');
 //     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 //   };
+useEffect(() => {
+  AOS.init({ duration: 1000, once: true }); // Initialize AOS and set animation duration
+}, []);
   
   return (
     <header className="header-container">
@@ -63,27 +68,23 @@ const Header = () => {
         </div>
       </div>
       <div className="info-sections">
-        <div className="info-card research">
-          <h3>PLACEMENTS</h3>
-          <img src="/assets/icons/research-icon.png" alt="Research Icon" />
-          {/* <p>Mapping the Innovations</p> */}
+          <div className="info-card research" data-aos="fade-right">
+            <h3>PLACEMENTS</h3>
+            <img src="/assets/icons/research-icon.png" alt="Research Icon" />
+          </div>
+          <div className="info-card startups" data-aos="fade-right" data-aos-delay="200">
+            <h3>INTERNSHIPS</h3>
+            <img src="/assets/icons/startups-icon.png" alt="Startups Icon" />
+          </div>
+          <div className="info-card news" data-aos="fade-right" data-aos-delay="400">
+            <h3>WHY RECRUIT?</h3>
+            <img src="/assets/icons/news-icon.png" alt="News Icon" />
+          </div>
+          <div className="info-card abu-dhabi" data-aos="fade-right" data-aos-delay="600">
+            <h3>PEOPLE</h3>
+            <img src="/assets/icons/abu-dhabi-icon.png" alt="Abu Dhabi Icon" />
+          </div>
         </div>
-        <div className="info-card startups">
-          <h3>INTERNSHIPS</h3>
-          <img src="/assets/icons/startups-icon.png" alt="Startups Icon" />
-          {/* <p>Success stories of researchers</p> */}
-        </div>
-        <div className="info-card news">
-          <h3>WHY RECRUIT?</h3>
-          <img src="/assets/icons/news-icon.png" alt="News Icon" />
-          {/* <p>Panorama of Events</p> */}
-        </div>
-        <div className="info-card abu-dhabi">
-          <h3>PEOPLE</h3>
-          <img src="/assets/icons/abu-dhabi-icon.png" alt="Abu Dhabi Icon" />
-          {/* <p>Innovate. Inspire. Transform. Discover</p> */}
-        </div>
-      </div>
     </div>
     </header>
   )
