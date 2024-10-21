@@ -70,19 +70,19 @@ useEffect(() => {
       <div className="info-sections">
           <div className="info-card research" data-aos="fade-right">
             <h3>PLACEMENTS</h3>
-            <img src="/assets/icons/research-icon.png" alt="Research Icon" />
+            <img src="/assets/icons/research-icon.png" alt="placement Icon" />
           </div>
           <div className="info-card startups" data-aos="fade-right" data-aos-delay="200">
             <h3>INTERNSHIPS</h3>
-            <img src="/assets/icons/startups-icon.png" alt="Startups Icon" />
+            <img src="/assets/icons/startups-icon.png" alt="intern Icon" />
           </div>
           <div className="info-card news" data-aos="fade-right" data-aos-delay="400">
             <h3>WHY RECRUIT?</h3>
-            <img src="/assets/icons/news-icon.png" alt="News Icon" />
+            <img src="/assets/icons/news-icon.png" alt="why Icon" />
           </div>
           <div className="info-card abu-dhabi" data-aos="fade-right" data-aos-delay="600">
             <h3>PEOPLE</h3>
-            <img src="/assets/icons/abu-dhabi-icon.png" alt="Abu Dhabi Icon" />
+            <img src="/assets/icons/abu-dhabi-icon.png" alt="people Icon" />
           </div>
         </div>
     </div>

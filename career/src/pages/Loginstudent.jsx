@@ -12,7 +12,7 @@ const LoginStudent = () => {
     // Here you can handle login logic for IR or PR
     if (username === 'admin' && password === 'password123') {
       alert('Login successful as IR/PR');
-      navigate('/pr-board'); // Navigate to the PR board or any desired route
+      navigate('/dashboard'); // Navigate to the PR board or any desired route
     } else {
       alert('Invalid credentials');
     }
