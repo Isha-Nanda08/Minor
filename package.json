@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "career": "file:career",
+    "express": "^4.21.1"
+  }
+}
