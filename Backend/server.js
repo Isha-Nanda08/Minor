@@ -111,10 +111,119 @@ app.get("/api/resumes/:filename", (req, res) => {
   }
 });
 
+const companyFilePath = path.join(__dirname, 'CompanyData.json');
+
+// Ensure the file exists, create it if it doesn't
+if (!fs.existsSync(companyFilePath)) {
+  fs.writeFileSync(companyFilePath, JSON.stringify([], null, 2)); // Initialize with an empty array
+}
+
+// Helper functions for reading and writing company data
+function readCompanyData() {
+  const data = fs.readFileSync(companyFilePath, 'utf-8');
+  return JSON.parse(data);
+}
+
+function writeCompanyData(companies) {
+  fs.writeFileSync(companyFilePath, JSON.stringify(companies, null, 2));
+}
+
+// Route for adding company details
+app.post("/api/companies/add", (req, res) => {
+  try {
+    const {
+      companyName, // Name of the company
+      role,        // Job role
+      minCGPA,     // Minimum CGPA required
+      eligibleBranches, // Comma-separated branches
+      maxBacklogs, // Maximum allowed backlogs
+      degree,      // Eligible degree (B.Tech, M.Tech, etc.)
+      package,     // Package offered (LPA)
+      stipend,     // Internship stipend (if applicable)
+      visitingYear // Year the company is visiting
+    } = req.body;
+
+    // Validate required fields
+    if (!companyName || !role || !minCGPA || !eligibleBranches || maxBacklogs === undefined || !degree || !visitingYear) {
+      return res.status(400).json({ message: "All fields are required except package and stipend." });
+    }
+
+    // Create new company object
+    const newCompany = {
+      id: Date.now(), // Unique ID for each company
+      companyName,
+      role,
+      minCGPA: parseFloat(minCGPA),
+      eligibleBranches: eligibleBranches.split(',').map(branch => branch.trim()), // Convert to array
+      maxBacklogs: parseInt(maxBacklogs, 10),
+      degree,
+      package: parseFloat(package) || null, // Nullable fields
+      stipend: parseFloat(stipend) || null,
+      visitingYear: parseInt(visitingYear, 10),
+    };
+
+    // Read and update company data
+    const companies = readCompanyData();
+    companies.push(newCompany);
+    writeCompanyData(companies);
+
+    res.status(201).json({ message: "Company added successfully!", company: newCompany });
+  } catch (error) {
+    console.error("Error adding company:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// Route to fetch all company details
+app.get("/api/companies", (req, res) => {
+  try {
+    const companies = readCompanyData();
+    res.status(200).json(companies);
+  } catch (err) {
+    console.error("Error fetching companies:", err);
+    res.status(500).json({ message: "Error reading company data file." });
+  }
+});
+
 // Default home route
 app.get("/", (req, res) => {
   res.send("Welcome to the Student Registration Backend!");
 });
+
+// Route to check student eligibility for companies
+app.get("/api/students/eligibility/:studentId", (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+    const students = readStudentData();
+    const companies = readCompanyData();
+    
+    // Find the student by ID
+    const student = students.find(s => s.id === parseInt(studentId));
+    if (!student) {
+      return res.status(404).json({ message: "Student not found." });
+    }
+
+    // Check eligibility for each company
+    const eligibility = companies.map((company) => {
+      const isEligible =
+        student.cg >= company.minCGPA &&
+        student.backlogs <= company.maxBacklogs &&
+        company.eligibleBranches.includes(student.branch) &&
+        student.degree === company.degree;
+      return {
+        companyName: company.companyName,
+        role: company.role,
+        eligible: isEligible ? "Eligible" : "Not Eligible",
+      };
+    });
+
+    res.status(200).json(eligibility);
+  } catch (error) {
+    console.error("Error checking eligibility:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 3080;

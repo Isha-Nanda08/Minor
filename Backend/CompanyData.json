@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1695927600000,
+    "companyName": "Google",
+    "role": "Software Engineer",
+    "minCGPA": 8.5,
+    "eligibleBranches": [
+      "CSE",
+      "ECE"
+    ],
+    "maxBacklogs": 0,
+    "degree": "B.Tech",
+    "package": 25,
+    "stipend": null,
+    "visitingYear": 2024
+  },
+  {
+    "id": 1732641469013,
+    "companyName": "flipkart",
+    "role": "SDE",
+    "minCGPA": 7,
+    "eligibleBranches": [
+      "IT"
+    ],
+    "maxBacklogs": 0,
+    "degree": "B.Tech",
+    "package": 20,
+    "stipend": null,
+    "visitingYear": 2026
+  }
+]

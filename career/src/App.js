@@ -13,6 +13,7 @@ import Loginstudent from "./pages/Loginstudent";
 import Navbar from "./components/Navbar";
 import CompanyCalendar from "./components/CompanyCalender";
 import StudentRegister from "./pages/StudentRegister";
+import CompanyUpload from "./pages/CompanyUpload";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/loginstudent" element={<Loginstudent />} />
           <Route path="/calender" element={<CompanyCalendar />} />
           <Route path="/register" element={<StudentRegister/>} />
+          <Route path="/companies" element={<CompanyUpload/>} />
         </Routes>
       </Router>
     </div>
