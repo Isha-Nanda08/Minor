@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const StudentRegister = () => {
   const [formData, setFormData] = useState({
@@ -11,9 +12,11 @@ const StudentRegister = () => {
     passingYear: "",
     degree: "B.Tech",
     resume: null,
+    password: "", // New password field
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -40,6 +43,7 @@ const StudentRegister = () => {
       });
       setSuccess(response.data.message);
       setError("");
+      navigate("/loginstudent");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
       setSuccess("");
@@ -105,6 +109,14 @@ const StudentRegister = () => {
           <option value="M.Tech">M.Tech</option>
         </select>
         <input type="file" name="resume" onChange={handleChange} required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
         <button type="submit">Register</button>
       </form>
     </div>

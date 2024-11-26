@@ -4,6 +4,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { motion } from 'framer-motion';
 import '../styles/Dashboard.css';  // Create this file to apply custom CSS
 import CompanyCalendar from '../components/CompanyCalender';
+import Eligible from '../components/Eligible';
 
 const Dashboard = () => {
   // States for filters
@@ -37,6 +38,7 @@ const Dashboard = () => {
       <marquee className="marquee-text">
         New Companies For Different Streams In Institute. Do Check It!!!
       </marquee>
+      <Eligible/>
       <CompanyCalendar/>
       <div className='filters container' style={{ height: "90px" }}>
                 <div className="row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
