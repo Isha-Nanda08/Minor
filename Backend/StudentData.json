@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Isha Nanda",
+    "branch": "IT",
+    "instituteId": "22124045",
+    "cg": 8.09,
+    "backlogs": 0,
+    "passingYear": 2026,
+    "degree": "B.Tech",
+    "resumePath": "uploads/john_doe_resume.pdf"
+  },
+  {
+    "name": "Jane Smith",
+    "branch": "ECE",
+    "instituteId": "67890",
+    "cg": 7.2,
+    "backlogs": 1,
+    "passingYear": 2023,
+    "degree": "B.Tech",
+    "resumePath": "uploads/jane_smith_resume.pdf"
+  },
+  {
+    "name": "isha nanda",
+    "branch": "IT",
+    "instituteId": "22124045",
+    "cg": "8.09",
+    "backlogs": "0",
+    "passingYear": "2026",
+    "degree": "B.Tech",
+    "resumePath": "c:\\minor\\my-work\\Backend\\uploads\\70b54733837d773db6a378c1afccd888"
+  },
+  {
+    "name": "isha nanda",
+    "branch": "IT",
+    "instituteId": "22124045",
+    "cg": "8.09",
+    "backlogs": "0",
+    "passingYear": "2026",
+    "degree": "B.Tech",
+    "resumePath": "c:\\minor\\my-work\\Backend\\uploads\\d470387d60b28823086fd97475611630"
+  },
+  {
+    "name": "isha nanda",
+    "branch": "IT",
+    "instituteId": "22124045",
+    "cg": "8.09",
+    "backlogs": "0",
+    "passingYear": "2026",
+    "degree": "B.Tech",
+    "resumePath": "c:\\minor\\my-work\\Backend\\uploads\\dc07b456ab31fa09b6d7465517571b92"
+  },
+  {
+    "id": 1732631979007,
+    "name": "isha nanda",
+    "branch": "IT",
+    "instituteId": "22124045",
+    "cg": 8.09,
+    "backlogs": 0,
+    "passingYear": 2026,
+    "degree": "B.Tech",
+    "resumePath": "uploads\\18bea6e3651dd32d4e3417c690abde30"
+  },
+  {
+    "id": 1732632269563,
+    "name": "isha nanda",
+    "branch": "IT",
+    "instituteId": "22124019",
+    "cg": 8.09,
+    "backlogs": 0,
+    "passingYear": 2026,
+    "degree": "B.Tech",
+    "resumePath": "uploads\\1f4e0c973bd0040689e638259c4b5c26"
+  }
+]

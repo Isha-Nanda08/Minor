@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Loginstudent from "./pages/Loginstudent";
 import Navbar from "./components/Navbar";
 import CompanyCalendar from "./components/CompanyCalender";
+import StudentRegister from "./pages/StudentRegister";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/loginstudent" element={<Loginstudent />} />
           <Route path="/calender" element={<CompanyCalendar />} />
+          <Route path="/register" element={<StudentRegister/>} />
         </Routes>
       </Router>
     </div>
