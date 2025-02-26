@@ -14,6 +14,9 @@ import Navbar from "./components/Navbar";
 import CompanyCalendar from "./components/CompanyCalender";
 import StudentRegister from "./pages/StudentRegister";
 import CompanyUpload from "./pages/CompanyUpload";
+import AlumniPage from "./pages/AluminiPage";
+import About from "./components/About";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -36,8 +39,12 @@ function App() {
           <Route path="/calender" element={<CompanyCalendar />} />
           <Route path="/register" element={<StudentRegister/>} />
           <Route path="/companies" element={<CompanyUpload/>} />
+          <Route path="/forum" element={<AlumniPage/>} />
+          <Route path="/about" element={<About/>} />
+          
         </Routes>
       </Router>
+      {/* <Footer/> */}
     </div>
   );
 }

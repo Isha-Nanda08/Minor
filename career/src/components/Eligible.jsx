@@ -1,42 +1,67 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import '../styles/eligible.css'
-const Eligible = ({ studentId }) => {
+import React, { useState, useEffect } from "react";
+import "../styles/eligible.css";
+
+const Eligible = () => {
   const [companies, setCompanies] = useState([]);
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEligibility = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3080/api/students/eligibility/${studentId}`
-        );
-        setCompanies(response.data);
-        setError("");
-      } catch (err) {
-        setError(err.response?.data?.message || "Something went wrong");
-      }
-    };
+    // Hardcoded data for now
+    const companyData = [
+      {
+        companyName: "Google",
+        role: "Software Engineer",
+        eligible: true,
+        package: "25 LPA",
+        stipend: null,
+      },
+      {
+        companyName: "Flipkart",
+        role: "SDE",
+        eligible: false,
+        package: "20 LPA",
+        stipend: null,
+      },
+      {
+        companyName: "Amazon",
+        role: "DevOps Engineer",
+        eligible: true,
+        package: "22 LPA",
+        stipend: "50,000 INR",
+      },
+    ];
 
-    fetchEligibility();
-  }, [studentId]);
+    // Set companies data
+    setCompanies(companyData);
+    setIsLoading(false);
+  }, []);
 
   return (
     <div className="student-dashboard">
       <h2>Company Eligibility Status</h2>
-      {error && <p className="error">{error}</p>}
-      {companies.length > 0 ? (
-        <div className="company-list">
-          {companies.map((company, index) => (
-            <div key={index} className="company-card">
-              <h3>{company.companyName}</h3>
-              <p>Role: {company.role}</p>
-              <p>Status: {company.eligible}</p>
-            </div>
-          ))}
-        </div>
+      {isLoading ? (
+        <p>Loading eligibility data...</p>
       ) : (
-        <p>No companies found</p>
+        <>
+          {companies.length > 0 ? (
+            <div className="company-list">
+              {companies.map((company, index) => (
+                <div key={index} className="company-card">
+                  <h3>{company.companyName}</h3>
+                  <p>Role: {company.role}</p>
+                  <p>Status: {company.eligible ? "Eligible" : "Not Eligible"}</p>
+                  <p>Package: {company.package}</p>
+                  {company.stipend && <p>Stipend: {company.stipend}</p>}
+                  {company.eligible && (
+                    <button className="apply-btn">Apply</button>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No companies found</p>
+          )}
+        </>
       )}
     </div>
   );

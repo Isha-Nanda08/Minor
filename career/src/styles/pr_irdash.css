@@ -1,153 +1,105 @@
+/* General Styles */
 .dashboard {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
   padding: 20px;
-  background-color: #f8f9fa;
 }
 
+h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Section Styling */
 .section {
   margin-bottom: 40px;
 }
 
-h2 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: left;
-  left: 0%;
-}
-
+/* Notifications Section */
 .horizontal-scroll-container {
-  width: 100%;
-  overflow: hidden; /* Hide overflowing content */
-  /* background-color: #fff; */
-  border: 1px solid #ddd;
-  padding: 15px 0;
-  background-color: #215c9b9b;
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 20px;
 }
 
 .scroll-content {
   display: flex;
-  gap: 20px; /* Space between notifications */
-  animation: scroll 20s linear infinite; /* Animation to scroll horizontally */
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
 }
 
 .info {
-  min-width: 200px; /* Set a fixed width for each notification */
-  background-color: white;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.info .desc {
-  font-size: 20px;
-  color: #555;
-  font-weight: 600;
-}
-
-.info .pr-name, .info .branch {
-  font-size: 14px;
-  color: #888;
-  margin-top: 10px;
-  /* margin-left: 40px; */
-  text-align: right;
-}
-
-
-.student-questions, .post-notification, .raise-query {
-  width: 80%;
-  margin-bottom: 20px;
+  background-color: #f4f4f4;
   padding: 20px;
-  background-color: #f1f3f4;
+  margin-right: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.student-questions h2, .post-notification h2, .raise-query h2 {
-  margin-bottom: 15px;
-  font-size: 1.4em;
-  color: #007bff;
-  
-}
-
-.question {
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-}
-
-.question-text {
+.desc {
   font-weight: bold;
-  color: #333;
+  color: #2c3e50;
 }
 
-.student-name {
-  font-style: italic;
-  color: #777;
+.pr-name, .branch {
+  font-size: 0.9rem;
+  color: #7f8c8d;
 }
 
-.post-notification button {
+/* Button Styles */
+button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.post-notification button:hover {
-  background-color: #0056b3;
+button:hover {
+  background-color: #2980b9;
 }
 
-.raise-query form {
+.post-notification-btn {
+  width: auto;
+}
+
+.raise-query-btn {
+
+  background-color: #27ae60;
+  width: 50%;
+  margin-left: 24%;
+}
+
+.raise-query-btn:hover {
+  background-color: #2ecc71;
+
+}
+
+/* Post Company Requirements Section */
+.post-company-details-btn {
+  background-color: #e67e22;
+  margin-top:20px ;
+}
+
+.post-company-details-btn:hover {
+  background-color: #d35400;
+}
+
+/* Query Form Styling */
+.query-form {
   display: flex;
   flex-direction: column;
 }
 
-.raise-query textarea {
+textarea {
   padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  width: 100%;
-  height: 100px;
-  font-size: 1em;
-  resize: none;
-}
-
-.raise-query button {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
+  font-size: 1rem;
+  width: 100%;
 }
 
-.raise-query button:hover {
-  background-color: #218838;
-}
-
-/* Responsive Styling */
-@media (max-width: 768px) {
-  .dashboard {
-    padding: 10px;
-  }
-
-  .notify-container, .student-questions, .post-notification, .raise-query {
-    width: 100%;
-  }
-}

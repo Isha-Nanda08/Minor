@@ -60,7 +60,7 @@ useEffect(() => {
       
       <div className="name">
         <div className="web">
-            <p class="webname">carrer connect</p>
+            <p class="webname">career connect</p>
             <p class="webdesc">A portal by NIT Jalandhar which provides all the information regarding the statistics about
                 institute's placements and updates students with upcoming opportunities
                 and also provides students to contact TPO, PRs and IRs.

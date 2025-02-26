@@ -1,22 +1,62 @@
 [
   {
-    "name": "Isha Nanda",
-    "branch": "IT",
-    "instituteId": "22124045",
+    "id": 1732672433335,
+    "name": "isha nanda",
+    "branch": "CSE",
+    "instituteId": "22124006",
+    "password": "$2b$10$eLi2wjD4JXQ1G6A7iPA/7OaUsOgpWmvH9H1yQrsE2G3lkSIO2glKy",
     "cg": 8.09,
     "backlogs": 0,
     "passingYear": 2026,
     "degree": "B.Tech",
-    "resumePath": "uploads/john_doe_resume.pdf"
+    "resumePath": "uploads\\fe6d21a4bc491c07558fecf771e6130b"
   },
   {
-    "name": "Jane Smith",
-    "branch": "ECE",
-    "instituteId": "67890",
-    "cg": 7.2,
-    "backlogs": 1,
-    "passingYear": 2023,
+    "id": 1732675439307,
+    "name": "isha nanda",
+    "branch": "IT",
+    "instituteId": "22124045",
+    "password": "$2b$10$HxJ.zyskLoF/fvPzHp5Wwe6nu2/n6mAr9X73R28efprbRL2ppEIky",
+    "cg": 8.09,
+    "backlogs": 0,
+    "passingYear": 2026,
     "degree": "B.Tech",
-    "resumePath": "uploads/jane_smith_resume.pdf"
+    "resumePath": "uploads\\e02d47a0331147f2798114570035bcc1"
+  },
+  {
+    "id": 1732687259696,
+    "name": "aditi",
+    "branch": "cse",
+    "instituteId": "22124006",
+    "password": "$2b$10$4XDq7Z4uQ.qvaxz0zGt.YOoyOb1voz1jgeY.nDw/bUcX3xKiyIjZy",
+    "cg": 9,
+    "backlogs": 0,
+    "passingYear": 2026,
+    "degree": "B.Tech",
+    "resumePath": "uploads\\9308865615169d32c5043933158e08cd"
+  },
+  {
+    "id": 1732694277777,
+    "name": "LAXAY",
+    "branch": "IT",
+    "instituteId": "22124058",
+    "password": "$2b$10$JnKcO8kOXwVyETE9oTXmjONW1IqiWBiU0rpWwtzTH2p1VvWkrxbp2",
+    "cg": 10,
+    "backlogs": 0,
+    "passingYear": 2026,
+    "degree": "B.Tech",
+    "resumePath": "uploads\\d02ea61f2da2c680df2a70572586af30"
+  },
+  {
+    "id": 1732772012204,
+    "name": "manish",
+    "branch": "IT",
+    "instituteId": "22124061",
+    "password": "$2b$10$twFVsCbFYNeVxBvEXQSM1ORSF5EKmHDd8kjQvn2rV2V2DSzn9HXUK",
+    "cg": 7.38,
+    "backlogs": 0,
+    "passingYear": 2026,
+    "degree": "B.Tech",
+    "resumePath": "uploads\\e4067f7de06a763d8ece8498da91aea7"
   }
 ]

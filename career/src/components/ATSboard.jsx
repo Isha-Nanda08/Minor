@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 import '../styles/ATSboard.css';
 
+
 const ResumeChecker = () => {
   useEffect(() => {
     AOS.init({ duration: 1000 });

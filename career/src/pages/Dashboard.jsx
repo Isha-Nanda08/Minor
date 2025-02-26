@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [program, setProgram] = useState('');
   
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const instituteId = [22124045]
   
   // Handle filter changes
   const handleStreamChange = (event) => {
@@ -38,7 +39,8 @@ const Dashboard = () => {
       <marquee className="marquee-text">
         New Companies For Different Streams In Institute. Do Check It!!!
       </marquee>
-      <Eligible/>
+      <Eligible instituteId={instituteId} />
+
       <CompanyCalendar/>
       <div className='filters container' style={{ height: "90px" }}>
                 <div className="row" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>

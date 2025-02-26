@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirect
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import '../styles/pr_irdash.css';
+import Footer from '../components/Footer';
 
 const PrIrDash = () => {
   const [approvedNotifications, setApprovedNotifications] = useState([]);
-  const [studentQuestions, setStudentQuestions] = useState([]); // Dummy student questions data
+  const [studentQuestions, setStudentQuestions] = useState([]);
+  const navigate = useNavigate(); // Initialize the navigate function for redirection
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -20,6 +23,12 @@ const PrIrDash = () => {
     ];
     setStudentQuestions(questions);
   }, []);
+
+  // Redirect function for posting company details
+  const handlePostCompanyDetails = () => {
+    navigate('/companies'); // Redirect to the companies page
+  };
+
 
   return (
     <div className="dashboard">
@@ -38,21 +47,26 @@ const PrIrDash = () => {
         </div>
       </div>
 
-      <div className="section" data-aos="fade-left">
-        <h2>Questions from Students</h2>
-        <div className="questions-container">
-          {studentQuestions.map((question, index) => (
-            <div key={index} className="question" data-aos="fade-up">
-              <div className="student-name">{question.student}</div>
-              <div className="student-question">{question.question}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="section" data-aos="fade-up">
         <h2>Post a Notification</h2>
-        <button onClick={() => window.location.href = '/pr-submit-notification'} className="post-notification-btn" data-aos="zoom-in">Post Notification</button>
+        <button
+          onClick={() => window.location.href = '/pr-submit-notification'}
+          className="post-notification-btn"
+          data-aos="zoom-in"
+        >
+          Post Notification
+        </button>
+      </div>
+      <div className="section" data-aos="fade-up">
+        <h2>Post Company Requirements</h2>
+        <p>Enter details about company requirements and necessary criteria.</p>
+        <button
+          onClick={handlePostCompanyDetails} // Trigger the redirection to post company details
+          className="post-company-details-btn"
+          data-aos="zoom-in"
+        >
+          Post Company Details
+        </button>
       </div>
 
       <div className="section" data-aos="fade-up">
@@ -62,6 +76,10 @@ const PrIrDash = () => {
           <button type="submit" className="raise-query-btn">Raise Query</button>
         </form>
       </div>
+
+      {/* New Section to Post Company Requirements */}
+     
+      {/* <Footer/> */}
     </div>
   );
 };

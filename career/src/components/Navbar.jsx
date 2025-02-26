@@ -14,11 +14,11 @@ const Navbar= () => {
         <div className="top-bar">
         <div className="top-links">
           <a href="/">Home</a>
-          <a href="#">About</a>
+          <a href="/about">About</a>
           <a href="/dashboard">Dashboard</a>
           <a href="/ats-page">ATS score</a>
           <a href="#">Contact</a>
-          <a href="#">Alumini</a>
+          <a href="/forum">Alumini</a>
           <a href="#">More</a>
           <div className="dropdown">
             <button className="dropbtn" onClick={handleDropdown}>Login</button>
