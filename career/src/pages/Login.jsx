@@ -4,7 +4,7 @@ import { getFirestore, collection, query, where, getDocs } from "firebase/firest
 import { app } from "../firebase"; // Ensure Firebase is initialized
 import { useNavigate } from "react-router-dom";
 
-const LoginStudent = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -33,8 +33,8 @@ const LoginStudent = () => {
         userData = doc.data();
       });
 
-      if (!userData || !userData.role || userData.role !== "student") {
-        setError("Unauthorized access. Only students can log in.");
+      if (!userData || !userData.role || !["pr", "ir"].includes(userData.role)) {
+        setError("Unauthorized access. Only PR/IR users can log in.");
         return;
       }
 
@@ -42,7 +42,7 @@ const LoginStudent = () => {
       await signInWithEmailAndPassword(auth, email, password);
 
       localStorage.setItem("userRole", userData.role); // Store role in local storage
-      navigate("/dashboard"); // Redirect to Student dashboard
+      navigate("/pr-dashboard"); // Redirect to PR dashboard
     } catch (error) {
       setError(error.message);
     }
@@ -50,7 +50,7 @@ const LoginStudent = () => {
 
   return (
     <div>
-      <h2>Login (Student)</h2>
+      <h2>Login (PR/IR)</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <input
@@ -73,4 +73,4 @@ const LoginStudent = () => {
   );
 };
 
-export default LoginStudent;
+export default Login;
