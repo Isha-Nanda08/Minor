@@ -8,32 +8,33 @@ const connectDB = require("./config/db");
 const app = express();
 const port = process.env.PORT || 5000;
 
-//Connect to MongoDB
+// Connect to MongoDB
 connectDB();
 
-//Middleware
+// Middleware
 app.use(express.json()); // Parse JSON body
 app.use(cookieParser()); // Handle cookies (refresh tokens)
 app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Allow frontend requests
 
-//Routes
+// Routes
 app.get("/", (req, res) => {
-    res.send(" Server is running and MongoDB is connected!");
+    res.send("Server is running and MongoDB is connected!");
 });
-app.use("/auth", (req, res, next) => {
-    // console.log("Auth route middleware called"); // Debug 
-    next();
-}, require("./routes/authRoutes")); // Authentication routes
+
+// Authentication Routes
+app.use("/auth", require("./routes/authRoutes"));
+
+// Resume Parsing Route
+app.use("/resume", require("./routes/resumeRoutes"));
 
 
-
-//  Global Error Handling (Optional)
+// Global Error Handling (Optional)
 app.use((err, req, res, next) => {
-    console.error(" Server Error:", err);
+    console.error("Server Error:", err);
     res.status(500).json({ message: "Internal Server Error" });
 });
 
-//  Start Server
+// Start Server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

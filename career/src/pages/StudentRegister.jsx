@@ -1,49 +1,41 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../styles/register.css"
+import "../styles/register.css";
+
 const StudentRegister = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "", // Changed from 'name' to match the model
+    institute_id: "",
     branch: "",
-    instituteId: "",
-    cg: "",
     backlogs: "",
-    passingYear: "",
-    degree: "B.Tech",
-    resume: null,
-    password: "", // New password field
+    cg: "",
+    password: "",
+    refreshToken: "", // Optional as per schema
   });
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "file" ? files[0] : value,
+      [name]: name === "cg" ? parseFloat(value).toFixed(2) : value, // Ensuring CGPA is formatted correctly
     });
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(); // Use FormData to send text and file data
-    Object.keys(formData).forEach((key) => {
-      data.append(key, formData[key]);
-    });
 
     try {
-      const response = await axios.post("http://localhost:3080/api/students/register", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post("http://localhost:3000/auth/students/register", formData);
       setSuccess(response.data.message);
       setError("");
-      navigate("/loginstudent");
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
       setSuccess("");
@@ -58,9 +50,17 @@ const StudentRegister = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
+          name="username"
+          placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="institute_id"
+          placeholder="Institute ID"
+          value={formData.institute_id}
           onChange={handleChange}
           required
         />
@@ -73,17 +73,10 @@ const StudentRegister = () => {
           required
         />
         <input
-          type="text"
-          name="instituteId"
-          placeholder="Institute ID"
-          value={formData.instituteId}
-          onChange={handleChange}
-          required
-        />
-        <input
           type="number"
           name="cg"
-          placeholder="CGPA"
+          placeholder="CGPA (e.g., 8.50)"
+          step="0.01"
           value={formData.cg}
           onChange={handleChange}
           required
@@ -96,19 +89,6 @@ const StudentRegister = () => {
           onChange={handleChange}
           required
         />
-        <input
-          type="number"
-          name="passingYear"
-          placeholder="Passing Year"
-          value={formData.passingYear}
-          onChange={handleChange}
-          required
-        />
-        <select name="degree" value={formData.degree} onChange={handleChange}>
-          <option value="B.Tech">B.Tech</option>
-          <option value="M.Tech">M.Tech</option>
-        </select>
-        <input type="file" name="resume" onChange={handleChange} required />
         <input
           type="password"
           name="password"
