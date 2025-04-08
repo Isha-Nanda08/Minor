@@ -66,7 +66,7 @@ const LoginStudent = () => {
       <div className="shape shape-4"></div>
       
       <div className="login-container">
-        <h1 className="login-title">Student Login</h1>
+        <h1 className="login-title">Login</h1>
         
         {error && (
           <div className="error-message">

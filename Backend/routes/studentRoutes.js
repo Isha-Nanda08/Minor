@@ -1,38 +1,56 @@
+// routes/userRoutes.js
 const express = require('express');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/studentModel'); // Adjust path as needed
-
+const User = require('../models/User');
+const auth = require('../middleware/auth');
 const router = express.Router();
 
-// Login API
-router.post('/login', async (req, res) => {
-    const { institute_id, password } = req.body;
-
-    try {
-        // Check if user exists
-        const user = await User.findOne({ institute_id });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Compare passwords
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
-
-        // Generate JWT Token
-        const token = jwt.sign(
-            { id: user._id, institute_id: user.institute_id },
-            'your_secret_key', // Replace with a strong secret key
-            { expiresIn: '1h' }
-        );
-
-        res.json({ message: 'Login successful', token });
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+// Get user profile (protected route)
+router.get('/login', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Update user profile
+router.put('/login', auth, async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    
+    // Build user object
+    const userFields = {};
+    if (name) userFields.name = name;
+    if (email) userFields.email = email;
+    
+    // Update user
+    let user = await User.findById(req.user.id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Make sure user owns profile
+    if (user._id.toString() !== req.user.id) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+    
+    user = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: userFields },
+      { new: true }
+    ).select('-password');
+    
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 module.exports = router;

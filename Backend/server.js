@@ -1,40 +1,53 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const connectDB = require("./config/db");
+// server.js
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const path = require('path');
 
-// Initialize Express App
+// Load environment variables
+dotenv.config();
+
+// Initialize express app
 const app = express();
-const port = process.env.PORT || 5000;
 
 // Connect to MongoDB
 connectDB();
 
 // Middleware
-app.use(express.json()); // Parse JSON body
-app.use(cookieParser()); // Handle cookies (refresh tokens)
-app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Allow frontend requests
+app.use(express.json());
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:3000', // Your React app's URL
+  credentials: true
+}));
 
-// Routes
-app.get("/", (req, res) => {
-    res.send("Server is running and MongoDB is connected!");
+// Define routes
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/users', require('./routes/studentRoutes'));
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+// Default route
+app.get('/api', (req, res) => {
+  res.send('API is running');
 });
 
-// Authentication Routes
-app.use("/auth", require("./routes/authRoutes"));
-
-// Resume Parsing Route
-app.use("/resume", require("./routes/resumeRoutes"));
-
-
-// Global Error Handling (Optional)
+// Error handling middleware
 app.use((err, req, res, next) => {
-    console.error("Server Error:", err);
-    res.status(500).json({ message: "Internal Server Error" });
+  console.error(err.stack);
+  res.status(500).send('Server Error');
 });
 
-// Start Server
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app; // For testing purposes
