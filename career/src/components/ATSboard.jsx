@@ -17,8 +17,8 @@ const ResumeChecker = () => {
         <h1>Is your resume good enough?</h1>
         <p>A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready to perform and get you interview callbacks.</p>
         <div className="upload-section" data-aos="fade-up">
-          <p>Drop your resume here or choose a file. PDF & DOCX only. Max 2MB file size.</p>
-          <button className="upload-btn">Upload Your Resume</button>
+          <p>Drop your resume here or choose a file. PDF only. Max 2MB file size.</p>
+          <button className="upload-btn" onClick={() => (window.location.href = "https://huggingface.co/spaces/manish917/ai_resume_parser")}>Upload</button>
           <p className="privacy-text">Privacy guaranteed</p>
         </div>
       </div>

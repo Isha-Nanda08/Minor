@@ -23,9 +23,9 @@ const Navbar= () => {
           <div className="dropdown">
             <button className="dropbtn" onClick={handleDropdown}>Login</button>
             <div className="dropdown-content">
-            <a href="/loginstudent">Login as Student</a>
-            <a href="/login">Login as PR/IR</a>
-            <a href="/login-placement-cell">Login as Placement Cell</a>
+            <a href="/login">Login</a>
+            {/* <a href="/login">Login as PR/IR</a> */}
+            {/* <a href="/login-placement-cell">Login as Placement Cell</a> */}
             </div>
           </div>
         </div>

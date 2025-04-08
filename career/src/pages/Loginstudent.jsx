@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
-import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { AlertCircle, Loader2 } from "lucide-react";
 import "../styles/loginstudent.css"; // Make sure this CSS file is in the same directory
@@ -13,44 +10,48 @@ const LoginStudent = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      // Check Firestore for valid student role
-      const usersRef = collection(db, "users");
-      const q = query(usersRef, where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        setError("This email is not registered.");
-        setLoading(false);
-        return;
-      }
-
-      let userData = null;
-      querySnapshot.forEach((doc) => {
-        userData = doc.data();
+      // Call your backend API for authentication
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: "include", // To enable cookies if using cookie-based auth
       });
 
-      if (!userData || userData.role !== "student") {
-        setError("Unauthorized access. Only students can log in.");
-        setLoading(false);
-        return;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
       }
 
-      // Firebase Authentication
-      await signInWithEmailAndPassword(auth, email, password);
+     
 
-      localStorage.setItem("userRole", userData.role);
-      navigate("/dashboard");
+      // Store user info in localStorage (or better, in a context/state manager)
+      localStorage.setItem("userRole", data.user.role);
+      localStorage.setItem("token", data.token);
+      if (data.user.role === "student") {
+        navigate("/dashboard");
+      } else if (data.user.role === "PR") {
+        navigate("/ir_prdash");
+      } else {
+        // Fallback for any other roles
+        setError("Unknown user role");
+        localStorage.clear();
+        return;
+      }
+      
+      // Redirect to dashboard
+ 
     } catch (error) {
-      setError("Invalid email or password. Please try again.");
+      setError(error.message || "Invalid email or password. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -100,11 +101,11 @@ const LoginStudent = () => {
           >
             {loading ? (
               <>
-                <Loader2 style={{ 
-                  width: '16px', 
-                  height: '16px', 
-                  marginRight: '8px', 
-                  display: 'inline-block', 
+                <Loader2 style={{
+                  width: '16px',
+                  height: '16px',
+                  marginRight: '8px',
+                  display: 'inline-block',
                   verticalAlign: 'text-bottom',
                   animation: 'spin 1s linear infinite'
                 }} />

@@ -1,13 +1,13 @@
+// src/pages/Dashboard.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { Grid, Select, MenuItem, FormControl, InputLabel, Alert, Stack, Button } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { motion } from "framer-motion";
-import "../styles/Dashboard.css"; // Make sure you have this file
+import "../styles/Dashboard.css";
 import CompanyCalendar from "../components/CompanyCalender";
 import Eligible from "../components/Eligible";
+import api from "../Api";
 
 const Dashboard = () => {
   const [stream, setStream] = useState("");
@@ -15,65 +15,83 @@ const Dashboard = () => {
   const [program, setProgram] = useState("");
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   const navigate = useNavigate();
-  const auth = getAuth();
-  const db = getFirestore();
 
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  // const instituteId = [22124045];
 
   // Check authentication and fetch user role
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const userRef = doc(db, "users", user.uid);
-          const userSnap = await getDoc(userRef);
-  
-          console.log("User UID:", user.uid); // Debug UID
-          console.log("User Data:", userSnap.exists() ? userSnap.data() : "No data found");
-  
-          if (userSnap.exists()) {
-            const role = userSnap.data().role;
-            console.log("Fetched Role:", role);
-  
-            setUserRole(role);
-            if (role !== "student") {
-              console.log("Not a student, redirecting...");
-              navigate("/login");
-            }
-          } else {
-            console.log("❌ No user data found in Firestore");
+    const checkAuthAndFetchUser = async () => {
+      try {
+        // Get token from localStorage
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          console.log("No token found, redirecting to login");
+          navigate("/login"); // Redirecting to login instead of profile
+          return;
+        }
+        
+        // Set authorization header
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        };
+        
+        console.log("Attempting to fetch user data with token");
+        
+        // Make API call to verify token and get user data
+        const response = await api.get('/api/auth/current-user', config);
+        
+        if (response.data && response.data.user) {
+          console.log("User data received:", response.data.user);
+          setUserData(response.data.user);
+          
+          const role = response.data.user.role;
+          console.log("User role:", role);
+          
+          setUserRole(role);
+          if (role !== "student") {
+            console.log("Not a student, redirecting...");
             navigate("/login");
           }
-        } catch (error) {
-          console.error("Error fetching user role:", error);
+        } else {
+          console.log("❌ No user data found in response");
           navigate("/login");
         }
-      } else {
-        console.log("No authenticated user, redirecting...");
+      } catch (error) {
+        console.error("Authentication Error:", error);
+        console.error("Response data:", error.response?.data);
+        // Clear invalid token
+        localStorage.removeItem('token');
         navigate("/login");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    });
-  
-    return () => unsubscribe();
-  }, [auth, db, navigate]);
-  
-  
+    };
+    
+    checkAuthAndFetchUser();
+  }, [navigate]);
 
   // Logout function
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/login"); // Redirect after logout
-    } catch (error) {
-      console.error("Logout Error:", error.message);
-    }
+  const handleLogout = () => {
+    console.log("Logging out...");
+    // Remove token from localStorage
+    localStorage.removeItem('token');
+    // Call the backend logout endpoint (optional with JWT)
+    api.post('/api/auth/logout')
+      .then(response => {
+        console.log("Logout successful:", response.data);
+      })
+      .catch(error => console.error("Logout Error:", error));
+    // Redirect to login page
+    navigate("/login");
   };
 
-  if (loading) return <p>Loading...</p>; // Show a loading state
+  if (loading) return <p>Loading dashboard...</p>;
 
   return (
     <div className="dashboard">
@@ -81,11 +99,15 @@ const Dashboard = () => {
         <motion.h1 initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.2 }}>
           Company Dashboard Details
         </motion.h1>
+        {userData && (
+          <div className="user-welcome">
+            <p>Welcome, {userData.name || userData.email}</p>
+          </div>
+        )}
       </div>
 
       <marquee className="marquee-text">New Companies For Different Streams In Institute. Do Check It!!!</marquee>
 
-      {/* <Eligible instituteId={instituteId} /> */}
       <CompanyCalendar />
 
       <div className="filters container" style={{ height: "90px" }}>

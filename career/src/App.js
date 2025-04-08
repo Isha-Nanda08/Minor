@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route ,Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import ATSPage from "./pages/ATSPage";
 import Dashboard from "./pages/Dashboard";
@@ -17,6 +17,18 @@ import CompanyUpload from "./pages/CompanyUpload";
 import AlumniPage from "./pages/AluminiPage";
 import About from "./components/About";
 import Footer from "./components/Footer";
+// import Profile from "./pages/Profile";
+
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = () => {
+    return localStorage.getItem('token') !== null;
+  };
+
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
 
 function App() {
   return (
@@ -32,17 +44,28 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/placement-cell-approval" element={<PlacementCellApproval />} />
           <Route path="/pr-ir" element={<Pr_ir />} />
-          <Route path="/pr-ir-dashboard" element={<PrIrDash />} />
+          {/* <Route path="/pr-ir-dashboard" element={<PrIrDash />} /> */}
           <Route path="/pr-submit-notification" element={<PrSubmitNotification />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/loginstudent" element={<LoginStudent />} />
+          {/* <Route path="/login" element={<Login />} /> */}
+          {/* <Route path="/loginstudent" element={<LoginStudent />} /> */}
           <Route path="/calender" element={<CompanyCalendar />} />
           <Route path="/register" element={<StudentRegister/>} />
           <Route path="/companies" element={<CompanyUpload/>} />
           <Route path="/forum" element={<AlumniPage/>} />
           <Route path="/about" element={<About/>} />
-          
+          <Route path="/login" element={<LoginStudent />} />
+          <Route path="/ir_prdash" element={<PrIrDash />} />
+        {/* <Route path="/profile" element={<Profile />} /> */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
         </Routes>
+
       </Router>
       {/* <Footer/> */}
     </div>
