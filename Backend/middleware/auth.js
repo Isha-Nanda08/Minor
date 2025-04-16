@@ -4,7 +4,8 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-module.exports = (req, res, next) => {
+// Protect middleware to verify JWT
+const protect = (req, res, next) => {
   try {
     // Get token from header
     const authHeader = req.header('Authorization');
@@ -35,3 +36,22 @@ module.exports = (req, res, next) => {
     res.status(401).json({ message: 'Token is not valid' });
   }
 };
+
+// Restrict to specific roles middleware
+const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // Check if user exists (should be set by protect middleware)
+    if (!req.user) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
+    
+    // Check if user role is included in the allowed roles
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Not authorized to perform this action' });
+    }
+    
+    next();
+  };
+};
+
+module.exports = { protect, restrictTo };

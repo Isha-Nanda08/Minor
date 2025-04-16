@@ -8,6 +8,7 @@ import "../styles/Dashboard.css";
 import CompanyCalendar from "../components/CompanyCalender";
 import Eligible from "../components/Eligible";
 import api from "../Api";
+import StudentBulletin from "../components/student_bulletien";
 
 const Dashboard = () => {
   const [stream, setStream] = useState("");
@@ -148,6 +149,8 @@ const Dashboard = () => {
       </div>
 
       <Stack sx={{ width: "90%" }} spacing={2} className="alert-container">
+        {/* <div><</div> */}
+        <StudentBulletin/>
         <Alert icon={<CalendarMonthIcon />} severity="info">
           <strong>{monthNames[new Date().getMonth()]}, {new Date().getFullYear()}</strong> Visiting Companies In This Month - <strong>Check It Out!</strong>
         </Alert>

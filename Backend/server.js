@@ -24,7 +24,7 @@ app.use(cors({
 // Define routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/studentRoutes'));
-
+app.use('/api/notifications', require('./routes/notificationsRoutes'));
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder

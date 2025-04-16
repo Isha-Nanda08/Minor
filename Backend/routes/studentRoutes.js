@@ -1,11 +1,13 @@
 // routes/userRoutes.js
 const express = require('express');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+// const auth = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
+
 const router = express.Router();
 
 // Get user profile (protected route)
-router.get('/login', auth, async (req, res) => {
+router.get('/login', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) {
@@ -19,7 +21,7 @@ router.get('/login', auth, async (req, res) => {
 });
 
 // Update user profile
-router.put('/login', auth, async (req, res) => {
+router.put('/login', protect, async (req, res) => {
   try {
     const { name, email } = req.body;
     

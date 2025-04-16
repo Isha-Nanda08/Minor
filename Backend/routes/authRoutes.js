@@ -3,7 +3,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+// const auth = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
+
 const router = express.Router();
 
 // Register route
@@ -120,7 +122,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Get current user
-router.get('/current-user', auth, async (req, res) => {
+router.get('/current-user', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) {
