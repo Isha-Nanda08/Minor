@@ -13,10 +13,11 @@ import LoginStudent from "./pages/Loginstudent";
 import Navbar from "./components/Navbar";
 import CompanyCalendar from "./components/CompanyCalender";
 import StudentRegister from "./pages/StudentRegister";
-import CompanyUpload from "./pages/CompanyUpload";
+// import CompanyUpload from "./pages/CompanyUpload";
 import AlumniPage from "./pages/AluminiPage";
 import About from "./components/About";
 import Footer from "./components/Footer";
+import CompanyUploadForm from "./pages/CompanyUpload";
 // import Profile from "./pages/Profile";
 
 const ProtectedRoute = ({ children }) => {
@@ -50,7 +51,7 @@ function App() {
           {/* <Route path="/loginstudent" element={<LoginStudent />} /> */}
           <Route path="/calender" element={<CompanyCalendar />} />
           <Route path="/register" element={<StudentRegister/>} />
-          <Route path="/companies" element={<CompanyUpload/>} />
+          <Route path="/companies" element={<CompanyUploadForm/>} />
           <Route path="/forum" element={<AlumniPage/>} />
           <Route path="/about" element={<About/>} />
           <Route path="/login" element={<LoginStudent />} />
@@ -67,7 +68,7 @@ function App() {
         </Routes>
 
       </Router>
-      {/* <Footer/> */}
+      <Footer/>
     </div>
   );
 }

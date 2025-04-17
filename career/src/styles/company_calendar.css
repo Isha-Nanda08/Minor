@@ -1,150 +1,286 @@
-/* General container styling */
+/* company_calendar.css - Fixed visibility issues */
+
 .calendar-container {
-  width: 40%;
-  /* margin: 0 auto; */
+  background-color: white;
+  border-radius: 12px;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 50px;
-  right: 0%;
-  /* text-align: right; */
-  margin-left: 60%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
-/* Calendar header */
 .calendar-heading {
-  text-align: center;
-  font-size: 2rem;
-  color: #141212;
+  color: #0078d4;
+  font-size: 1.6rem;
   margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+  font-weight: 600;
 }
 
-/* Styled Calendar */
+.calendar-heading:after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #0078d4, #64b5f6);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Style the calendar */
 .styled-calendar {
-  max-width: 100%;
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  color: black;
-  background-color: #163b65d1;
+  width: 100% !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+  padding: 10px !important;
+  margin-bottom: 20px !important;
 }
 
-/* Company List Section */
-.company-list {
+/* Calendar tiles - Fix visibility issue */
+.styled-calendar .react-calendar__tile {
+  color: #333 !important;
+  background-color: #f9f9f9 !important;
+  border-radius: 8px !important;
+  margin: 2px !important;
+  padding: 10px 0 !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.styled-calendar .react-calendar__month-view__days__day--neighboringMonth {
+  color: #aaa !important;
+}
+
+.styled-calendar .react-calendar__tile:hover {
+  background-color: #e6f2ff !important;
+}
+
+.styled-calendar .react-calendar__navigation {
+  margin-bottom: 15px !important;
+}
+
+.styled-calendar .react-calendar__navigation button {
+  min-width: 40px !important;
+  background-color: #f0f7ff !important;
+  color: #0078d4 !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+}
+
+.styled-calendar .react-calendar__navigation button:hover {
+  background-color: #d4e6f9 !important;
+}
+
+.styled-calendar .react-calendar__tile--active {
+  background-color: #0078d4 !important;
+  color: white !important;
+}
+
+.styled-calendar .react-calendar__tile--now {
+  background-color: #f0f7ff !important;
+  border: 2px solid #0078d4 !important;
+  color: #0078d4 !important;
+  font-weight: bold !important;
+}
+
+/* Highlight dates with companies */
+.styled-calendar .has-company {
+  background-color: rgba(0, 120, 212, 0.15) !important;
+  position: relative;
+  font-weight: bold !important;
+}
+
+.styled-calendar .has-company::after {
+  content: '•';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #0078d4;
+  font-size: 16px;
+  line-height: 0;
+}
+
+/* Calendar labels */
+.styled-calendar .react-calendar__month-view__weekdays {
+  text-transform: uppercase;
+  font-weight: bold !important;
+  font-size: 0.8em !important;
+  color: #0078d4 !important;
+  padding: 5px 0 !important;
+}
+
+.styled-calendar .react-calendar__month-view__weekdays__weekday {
+  padding: 5px !important;
+}
+
+.styled-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none !important;
+}
+
+.calendar-content {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  color: black;
+  gap: 25px;
 }
 
-/* Company Item Styling */
-.company-item {
+/* Selected date companies */
+.selected-date-companies {
+  background-color: #f8fafd;
+  border-radius: 12px;
   padding: 15px;
-  border-left: 4px solid #007bff;
-  background-color: #f0f8ff;
-  transition: background-color 0.3s ease;
-  border-radius: 6px;
-  color: black;
+  border-left: 4px solid #0078d4;
+  margin-top: 10px;
+}
+
+.date-heading {
+  color: #0078d4;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.company-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease;
 }
 
 .company-item:hover {
-  background-color: #e6f7ff;
-  color: black;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.company-item h3 {
-  font-size: 1.5rem;
-  color: #007bff;
+.company-item h4 {
   margin: 0;
-  color: black;
+  color: #333;
+  font-weight: 500;
 }
 
-.company-item a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #0c3868;
-  color: rgb(255, 255, 255);
+.apply-button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
   text-decoration: none;
-  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.apply-button:hover {
+  background-color: #005fa3;
+  transform: scale(1.05);
+}
+
+.no-companies {
+  color: #767676;
+  text-align: center;
+  padding: 15px;
+  font-style: italic;
+}
+
+/* Monthly companies section */
+.monthly-companies-section {
+  background-color: #f0f7ff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.monthly-heading {
+  color: #0078d4;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.monthly-companies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
+}
+
+.monthly-company-item {
+  transition: transform 0.3s ease;
+}
+
+.monthly-company-item:hover {
+  transform: translateY(-5px);
+}
+
+.company-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+  height: 100%;
+  transition: box-shadow 0.3s ease;
+}
+
+.company-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 120, 212, 0.15);
+}
+
+.company-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0078d4, #64b5f6);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
   font-weight: bold;
-}
-.styled-calendar {
-  width: 100%; /* Ensure full width */
-  max-width: 400px; /* You can adjust this to fit your layout */
-  margin: 0 auto; /* Center the calendar */
-  font-size: 1.2rem; /* Adjust font size for visibility */
+  margin-bottom: 10px;
 }
 
-.react-calendar__tile {
-  height: auto;
-  padding: 10px;
-  font-weight: bold;
-}
-.react-calendar__tile {
-  color: black; /* Sets the default color for all dates to black */
+.company-card h4 {
+  margin: 10px 0 5px;
+  color: #333;
+  font-size: 1.1rem;
+  text-align: center;
 }
 
-.react-calendar__month-view__days__day--weekend {
-  color: red; /* Weekends in red */
+.visit-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
 }
 
-.react-calendar__tile--now {
-  background: #007bff; /* Current day */
-  color: rgb(230, 229, 229);
-}
-
-.react-calendar__tile--active {
-  background-color: #007bff !important;
-  color: rgb(139, 134, 134) !important;
-}
-
-
-.company-item a:hover {
-  background-color: #0056b3;
-}
-
-
-
-.react-calendar__tile--now {
-  background-color: #007bff; /* Keeps the highlight for the current date */
-  color: white; /* Keeps the color of the current date white */
-}
-
-.react-calendar__tile--active {
-  background-color: #007bff !important; /* Active date highlight */
-  color: white !important; /* Active date color */
-}
-
-.react-calendar__month-view__days__day--weekend {
-  color: rgb(197, 187, 187); /* Ensure weekends are also black */
-}
-
-/* AOS Animations */
-[data-aos="fade-right"] {
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 0.6s, transform 0.6s;
-}
-
-[data-aos="fade-right"].aos-animate {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-[data-aos="fade-in"] {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.6s, transform 0.6s;
-}
-
-[data-aos="fade-in"].aos-animate {
-  opacity: 1;
-  transform: scale(1);
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .monthly-companies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  
+  .company-card {
+    padding: 15px 10px;
+  }
+  
+  .company-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .company-card h4 {
+    font-size: 1rem;
+  }
 }

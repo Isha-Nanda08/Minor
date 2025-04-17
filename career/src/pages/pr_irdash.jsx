@@ -160,7 +160,7 @@ const PrIrDash = () => {
                 <h2>Post Company Requirements</h2>
                 <p>Enter details about company requirements and necessary criteria</p>
                 <button
-                  onClick={() => setActiveTab('companies')}
+                  onClick={handlePostCompanyDetails}
                   className="action-button"
                   data-aos="zoom-in"
                 >
@@ -239,7 +239,7 @@ const PrIrDash = () => {
         )}
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

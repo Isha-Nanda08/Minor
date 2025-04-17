@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Grow from '@mui/material/Grow';
 import Company from '../Data/companies'; // Import your company data
-import '../styles/companies.css'
+import '../styles/companyupload.css'
 
 const Companies = () => {
     const [breeds, setBreeds] = useState([]);  // State for API data
