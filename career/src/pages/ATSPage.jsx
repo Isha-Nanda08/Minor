@@ -12,7 +12,7 @@ const ATSPage = () => {
         <ATSboard/>
         <ResumeOptimization/>
         <ATSscore/>
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   )
 }

@@ -16,21 +16,27 @@ app.use(express.json());
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Helper function to interact with Gemini AI
+// Improved helper function to interact with Gemini AI with better JSON handling
 async function generateAIResponse(prompt) {
   try {
-    // const model = gemini.getGenerativeModel({ model: "gemini-1.0-pro" }); // Ensure the correct model
     const model = gemini.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
-
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const text = response.text();
-
+    let text = response.text();
+    
+    // Clean up markdown formatting if present
+    text = text.replace(/```json|```|`/g, '').trim();
+    
+    // Try to find JSON content if there's surrounding text
+    const jsonMatch = text.match(/(\{[\s\S]*\})/);
+    const jsonContent = jsonMatch ? jsonMatch[0] : text;
+    
     try {
-      return JSON.parse(text); // Ensure valid JSON response
+      return JSON.parse(jsonContent);
     } catch (error) {
       console.error("JSON Parsing Error:", error);
-      return { error: "Invalid JSON response from AI" };
+      console.error("Raw text received:", text.substring(0, 200));
+      return { error: "Invalid JSON response from AI", raw_text: text.substring(0, 500) };
     }
   } catch (error) {
     console.error("Gemini API Error:", error);
@@ -38,7 +44,42 @@ async function generateAIResponse(prompt) {
   }
 }
 
-// Function to extract details from the resume
+// Add retry logic to handle cases where model fails to provide valid JSON
+async function getValidJsonResponse(promptFunction, text, maxRetries = 3) {
+  let attempts = 0;
+  
+  while (attempts < maxRetries) {
+    const result = await promptFunction(text);
+    if (!result.error) {
+      return result;
+    }
+    
+    attempts++;
+    console.log(`Retry attempt ${attempts} for JSON parsing`);
+  }
+  
+  // If all retries fail, return a structured error with fallback data
+  return {
+    error: "Failed to parse after multiple attempts",
+    fallback_data: extractFallbackData(text)
+  };
+}
+
+// Simple function to extract basic data even if AI fails
+function extractFallbackData(text) {
+  // Simple regex patterns to catch common data
+  const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+  const phoneMatch = text.match(/(\+\d{1,3}[-\s]?)?\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{4}/);
+  const nameMatch = text.match(/^([A-Z][a-z]+(?: [A-Z][a-z]+)+)/m);
+  
+  return {
+    email: emailMatch ? emailMatch[0] : "Not found",
+    phone: phoneMatch ? phoneMatch[0] : "Not found",
+    name: nameMatch ? nameMatch[0] : "Not found"
+  };
+}
+
+// Updated function to extract details from the resume with clearer prompt
 async function extractResumeDetails(text) {
   const prompt = `
   Extract the following details from this resume:
@@ -50,7 +91,9 @@ async function extractResumeDetails(text) {
   - Education (Degree, University, Year)
   - Certifications (if any)
 
-  Return the response in JSON format.
+  Format your response as a valid JSON object without any markdown formatting, code blocks, or backticks.
+  DO NOT use \`\`\`json or any similar markdown formatting.
+  Return ONLY the raw JSON object.
   
   Resume Text:
   ${text}
@@ -58,7 +101,7 @@ async function extractResumeDetails(text) {
   return generateAIResponse(prompt);
 }
 
-// Function to generate resume improvement suggestions
+// Updated function to generate resume improvement suggestions
 async function generateResumeSuggestions(text) {
   const prompt = `
   Analyze this resume and provide constructive feedback on how to improve it.
@@ -68,7 +111,9 @@ async function generateResumeSuggestions(text) {
   - Enhancing work experience descriptions (achievements, quantification)
   - Additional certifications or skills that would be beneficial
 
-  Provide a structured JSON output:
+  Format your response as a valid JSON object without any markdown formatting, code blocks, or backticks.
+  DO NOT use \`\`\`json or any similar markdown formatting.
+  Return ONLY the raw JSON object with this exact structure:
   {
     "Skill Improvements": "...",
     "Work Experience Enhancements": "...",
@@ -83,7 +128,7 @@ async function generateResumeSuggestions(text) {
   return generateAIResponse(prompt);
 }
 
-// Function to calculate ATS (Applicant Tracking System) score
+// Updated function to calculate ATS score
 async function calculateATSScore(text) {
   const prompt = `
   Evaluate this resume and provide an ATS (Applicant Tracking System) score out of 100.
@@ -95,7 +140,9 @@ async function calculateATSScore(text) {
   - Quantified achievements in work experience
   - No missing key information (email, phone number, job titles)
 
-  Return the response in JSON format:
+  Format your response as a valid JSON object without any markdown formatting, code blocks, or backticks.
+  DO NOT use \`\`\`json or any similar markdown formatting.
+  Return ONLY the raw JSON object with this exact structure:
   {
     "ATS Score": "XX",
     "Keyword Match": "XX%",
@@ -111,7 +158,7 @@ async function calculateATSScore(text) {
   return generateAIResponse(prompt);
 }
 
-// Route to handle resume parsing
+// Updated route handler with retry logic
 app.post("/parse-resume", upload.single("file"), async (req, res) => {
   console.log("Received file upload request!");
 
@@ -125,9 +172,10 @@ app.post("/parse-resume", upload.single("file"), async (req, res) => {
 
     console.log("Extracted text from resume:", textContent.slice(0, 500)); // Log only first 500 chars for debugging
 
-    const extractedData = await extractResumeDetails(textContent);
-    const suggestions = await generateResumeSuggestions(textContent);
-    const atsScore = await calculateATSScore(textContent);
+    // Use our retry logic with the prompt functions
+    const extractedData = await getValidJsonResponse(extractResumeDetails, textContent);
+    const suggestions = await getValidJsonResponse(generateResumeSuggestions, textContent);
+    const atsScore = await getValidJsonResponse(calculateATSScore, textContent);
 
     res.json({
       parsed_resume: extractedData,
