@@ -22,6 +22,8 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("stream"); // Default active tab
   const [query, setQuery] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("Your query has been submitted successfully!");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const navigate = useNavigate();
 
@@ -82,23 +84,50 @@ const Dashboard = () => {
     checkAuthAndFetchUser();
   }, [navigate]);
 
-  // Handle query submission
-  const handleQuerySubmit = (e) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-    
-    // Here you would typically send the query to your backend
-    console.log("Submitting query:", query);
-    
-    // For now, we'll just show a success message
-    setSnackbarOpen(true);
-    setQuery("");
-  };
-
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
 
+  // Handle query submission
+  const handleQuerySubmit = async (e) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    
+    try {
+      // Get token from localStorage
+      const token = localStorage.getItem('token');
+      
+      // Set authorization header
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      };
+      
+      // Submit query to backend - only send queryText, studentId comes from JWT token
+      const response = await api.post('/api/queries/submit', {
+        queryText: query
+        // Remove studentId as backend gets it from JWT token via req.user.id
+      }, config);
+      
+      console.log("Query submitted successfully:", response.data);
+      setSnackbarMessage("Your query has been submitted successfully!");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+      setQuery("");
+    } catch (error) {
+      console.error("Query submission error:", error);
+      console.error("Response status:", error.response?.status);
+      console.error("Response data:", error.response?.data);
+      
+      // Show more detailed error message if available
+      const errorMsg = error.response?.data?.message || "Failed to submit query. Please try again.";
+      setSnackbarMessage(errorMsg);
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+  
   // Logout function
   const handleLogout = () => {
     console.log("Logging out...");
@@ -206,8 +235,11 @@ const Dashboard = () => {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
-        message="Your query has been submitted successfully!"
-      />
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

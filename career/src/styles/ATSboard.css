@@ -1,184 +1,154 @@
-.resume-checker-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 40px;
-    background: linear-gradient(to bottom right, #e2e8f0, #edf2f7);
+/* ATSboard.css */
+.ats-board-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.ats-board-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ats-board-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.ats-board-content p {
+  font-size: 1.125rem;
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.file-drop-area {
+  width: 100%;
+  max-width: 600px;
+  min-height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.file-drop-area.active {
+  border-color: #4a6cf7;
+  background-color: rgba(74, 108, 247, 0.05);
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.drop-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.drop-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.error-text {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.action-buttons button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-btn.primary {
+  background-color: #4a6cf7;
+  color: white;
+  border: none;
+}
+
+.upload-btn.primary:hover {
+  background-color: #3a5bd9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.upload-btn.primary:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.demo-btn.secondary {
+  background-color: transparent;
+  color: #4a6cf7;
+  border: 1px solid #4a6cf7;
+}
+
+.demo-btn.secondary:hover {
+  background-color: rgba(74, 108, 247, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .ats-board-content h1 {
+    font-size: 2rem;
   }
   
-  .left-section {
-    width: 50%;
-    padding: 20px;
+  .file-drop-area {
+    min-height: 150px;
+    padding: 1.5rem;
   }
   
-  .heading {
-    color: #6b46c1;
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-  
-  .left-section h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-  
-  .left-section p {
-    font-size: 18px;
-    color: #4a5568;
-    margin-bottom: 30px;
-  }
-  
-  .upload-section {
-    background-color: #f7fafc;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .upload-btn {
-    background-color: #38a169;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .privacy-text {
-    color: #718096;
-    font-size: 14px;
-    margin-top: 10px;
-  }
-  
-  .right-section {
-    width: 40%;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .score-container {
-    text-align: center;
-  }
-  
-  .score-circle {
-    width: 150px;
-    height: 150px;
-    border: 6px solid #38a169;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-  }
-  
-  .score-circle h3 {
-    margin: 0;
-    font-size: 32px;
-  }
-  
-  .score-details {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .score-details li {
-    margin: 10px 0;
-    font-size: 16px;
-  }
-  
-  .parse-rate-section {
-    margin-top: 30px;
-  }
-  
-  .parse-rate-bar {
+  .action-buttons {
+    flex-direction: column;
     width: 100%;
-    height: 20px;
-    background-color: #ddd;
-    border-radius: 10px;
+    max-width: 300px;
   }
   
-  .parse-rate-bar .filled-bar {
-    width: 0;
-    height: 100%;
-    background-color: #38a169;
-    transition: width 1.5s ease-in-out;
+  .action-buttons button {
+    width: 100%;
   }
-  
-  [data-aos="fill-bar"] {
-    width: 90% !important;
-  }
-  .optimization-container {
-    padding: 50px;
-    background: #111827;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .header-section h2 {
-    font-size: 36px;
-    font-weight: bold;
-  }
-  
-  .header-section p {
-    font-size: 18px;
-    margin-top: 10px;
-  }
-  
-  .checklist-section {
-    margin-top: 50px;
-  }
-  
-  .checklist-header h3 {
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .checklist-header p {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #d1d5db;
-  }
-  
-  .checklist-boxes {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    margin-top: 40px;
-  }
-  
-  .checklist-box {
-    background: #1f2937;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: left;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .checklist-box h4 {
-    font-size: 20px;
-    color: #60a5fa;
-    margin-bottom: 15px;
-  }
-  
-  .checklist-box ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .checklist-box li {
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  .checklist-box li:before {
-    content: "✔";
-    margin-right: 8px;
-    color: #22c55e;
-  }
-  
-  
+}

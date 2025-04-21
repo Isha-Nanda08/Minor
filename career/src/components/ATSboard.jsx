@@ -1,56 +1,113 @@
-import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // Import AOS styles
-import '../styles/ATSboard.css';
+import React, { useState, useRef } from 'react';
+import '../styles/ATSboard.css'; // Make sure you have corresponding CSS
 
+// import React, { useState, useRef } from 'react';
 
-const ResumeChecker = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
+const ATSboard = ({ onUpload, onDemoClick }) => {
+  const [dragActive, setDragActive] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadError, setUploadError] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    
+    if (e.target.files && e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
+  };
+
+  const handleFile = (file) => {
+    setUploadError(null);
+    
+    // Check if file is a PDF
+    if (file.type !== 'application/pdf') {
+      setUploadError('Please upload a PDF file only');
+      setSelectedFile(null);
+      return;
+    }
+    
+    setSelectedFile(file);
+  };
+
+  const handleSubmit = () => {
+    if (selectedFile) {
+      onUpload(selectedFile);
+    }
+  };
 
   return (
-    <div className="resume-checker-container">
-      {/* Left Section - Heading & Upload Area */}
-      <div className="left-section" data-aos="fade-right">
-        <h3 className="heading">Resume Checker</h3>
-        <h1>Is your resume good enough?</h1>
-        <p>A free and fast AI resume checker doing 16 crucial checks to ensure your resume is ready to perform and get you interview callbacks.</p>
-        <div className="upload-section" data-aos="fade-up">
-          <p>Drop your resume here or choose a file. PDF only. Max 2MB file size.</p>
-          <button className="upload-btn" onClick={() => (window.location.href = "https://huggingface.co/spaces/manish917/ai_resume_parser")}>Upload</button>
-          <p className="privacy-text">Privacy guaranteed</p>
-        </div>
-      </div>
+    <div className="ats-board-container">
+      <div className="ats-board-content">
+        <h1>Resume ATS Checker</h1>
+        <p>Upload your resume to check how well it performs against Applicant Tracking Systems</p>
 
-      {/* Right Section - ATS Score */}
-      <div className="right-section" data-aos="fade-left">
-        <div className="score-container">
-          <h2>Resume Score</h2>
-          <div className="score-circle">
-            <h3>92/100</h3>
-            <p>24 Issues</p>
-          </div>
-          <ul className="score-details">
-            <li>✔ ATS Parse Rate</li>
-            <li>✔ Quantifying Impact</li>
-            <li>✘ Repetition</li>
-            <li>✘ Spelling & Grammar</li>
-            <li>✔ Summarize Resume</li>
-          </ul>
-        </div>
-
-        <div className="parse-rate-section" data-aos="fade-left">
-          <h3>ATS Parse Rate</h3>
-          <div className="parse-rate-bar">
-            <div className="filled-bar" data-aos="fill-bar" data-aos-delay="600"></div>
+        <div 
+          className={`file-drop-area ${dragActive ? "active" : ""}`}
+          onDragEnter={handleDrag}
+          onDragOver={handleDrag}
+          onDragLeave={handleDrag}
+          onDrop={handleDrop}
+        >
+          <input 
+            ref={fileInputRef}
+            type="file" 
+            id="resume-upload" 
+            accept=".pdf"
+            onChange={handleChange}
+            className="file-input"
+          />
+          
+          <div className="drop-message">
+            <div className="upload-icon">
+              {/* Icon SVG */}
+            </div>
+            <p className="drop-text">
+              {selectedFile ? selectedFile.name : "Drag & drop your resume PDF or click to browse"}
+            </p>
+            {uploadError && <p className="error-text">{uploadError}</p>}
           </div>
         </div>
-      </div>
 
-      
+        <div className="action-buttons">
+          <button 
+            className="upload-btn primary"
+            onClick={handleSubmit}
+            disabled={!selectedFile}
+          >
+            Analyze Resume
+          </button>
+          <button 
+            className="demo-btn secondary"
+            onClick={onDemoClick}
+          >
+            View Demo Results
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default ResumeChecker;
+export default ATSboard;
