@@ -17,6 +17,7 @@ const PrIrDash = () => {
   const [responseText, setResponseText] = useState({});
   const [submittingResponse, setSubmittingResponse] = useState({});
   const [responseStatus, setResponseStatus] = useState({});
+  const [filterStatus, setFilterStatus] = useState('all');
   const navigate = useNavigate();
 
   // Authentication check
@@ -106,6 +107,11 @@ const PrIrDash = () => {
     }
   };
 
+  // Handle filter change
+  const handleFilterChange = (status) => {
+    setFilterStatus(status);
+  };
+
   // Handle response text change
   const handleResponseChange = (queryId, text) => {
     setResponseText(prev => ({
@@ -115,71 +121,110 @@ const PrIrDash = () => {
   };
 
   // Submit response to a query
-  const handleSubmitResponse = async (queryId) => {
-    if (!responseText[queryId] || responseText[queryId].trim() === '') return;
-    
-    setSubmittingResponse(prev => ({
-      ...prev,
-      [queryId]: true
-    }));
-    
-    try {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      
-      const response = await api.put(`/api/queries/${queryId}/respond`, {
-        answer: responseText[queryId],
-        status: 'answered'
-      }, config);
-      
-      if (response.data && response.data.success) {
-        console.log("Response submitted successfully:", response.data);
-        setResponseStatus(prev => ({
-          ...prev,
-          [queryId]: {
-            success: true,
-            message: 'Response submitted successfully!'
-          }
-        }));
-        
-        // Clear response text
-        setResponseText(prev => ({
-          ...prev,
-          [queryId]: ''
-        }));
-        
-        // Refresh queries
-        fetchQueries();
+  // Submit response to a query
+// Submit response to a query
+// Submit response to a query
+const handleSubmitResponse = async (queryId) => {
+  if (!responseText[queryId] || responseText[queryId].trim() === '') return;
+  
+  setSubmittingResponse(prev => ({
+    ...prev,
+    [queryId]: true
+  }));
+  
+  try {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
-    } catch (error) {
-      console.error("Error submitting response:", error);
+    };
+    
+    // Send the text directly with a clear parameter name
+    const response = await api.put(`/api/queries/${queryId}/respond`, {
+      answerText: responseText[queryId],
+      status: 'answered'
+    }, config);
+    
+    if (response.data && response.data.success) {
+      console.log("Response submitted successfully:", response.data);
+      
+      // Make sure the local state is updated with the format returned from the server
+      if (response.data.query) {
+        // Replace the entire query object with the one from the server response
+        setQueries(prevQueries => 
+          prevQueries.map(q => 
+            q._id === queryId ? response.data.query : q
+          )
+        );
+      } else {
+        // Fallback to local update if server doesn't return the updated query
+        setQueries(prevQueries => 
+          prevQueries.map(q => 
+            q._id === queryId 
+              ? {
+                  ...q,
+                  status: 'answered',
+                  answer: {
+                    text: responseText[queryId],
+                    answeredAt: new Date().toISOString()
+                  }
+                } 
+              : q
+          )
+        );
+      }
+      
       setResponseStatus(prev => ({
         ...prev,
         [queryId]: {
-          success: false,
-          message: 'Failed to submit response. Please try again.'
+          success: true,
+          message: 'Response submitted successfully!'
         }
       }));
-    } finally {
-      setSubmittingResponse(prev => ({
+      
+      // Clear response text
+      setResponseText(prev => ({
         ...prev,
-        [queryId]: false
+        [queryId]: ''
       }));
       
-      // Clear status message after 3 seconds
+      // Add animation class to the query card
       setTimeout(() => {
-        setResponseStatus(prev => {
-          const newStatus = {...prev};
-          delete newStatus[queryId];
-          return newStatus;
-        });
-      }, 3000);
+        const queryCard = document.getElementById(`query-card-${queryId}`);
+        if (queryCard) {
+          queryCard.classList.add('status-changed');
+          setTimeout(() => {
+            queryCard.classList.remove('status-changed');
+          }, 2000); // 2s matches the animation duration
+        }
+      }, 100);
     }
-  };
+  } catch (error) {
+    console.error("Error submitting response:", error);
+    setResponseStatus(prev => ({
+      ...prev,
+      [queryId]: {
+        success: false,
+        message: 'Failed to submit response. Please try again.'
+      }
+    }));
+  } finally {
+    setSubmittingResponse(prev => ({
+      ...prev,
+      [queryId]: false
+    }));
+    
+    // Clear status message after 3 seconds
+    setTimeout(() => {
+      setResponseStatus(prev => {
+        const newStatus = {...prev};
+        delete newStatus[queryId];
+        return newStatus;
+      });
+    }, 3000);
+  }
+};
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -368,9 +413,24 @@ const PrIrDash = () => {
             <p>View and respond to queries from students.</p>
             
             <div className="query-filters">
-              <button className="filter-button active">All Queries</button>
-              <button className="filter-button">Pending</button>
-              <button className="filter-button">Answered</button>
+              <button 
+                className={`filter-button ${filterStatus === 'all' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('all')}
+              >
+                All Queries
+              </button>
+              <button 
+                className={`filter-button ${filterStatus === 'pending' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('pending')}
+              >
+                Pending
+              </button>
+              <button 
+                className={`filter-button ${filterStatus === 'answered' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('answered')}
+              >
+                Answered
+              </button>
             </div>
             
             {queriesLoading ? (
@@ -380,78 +440,88 @@ const PrIrDash = () => {
               </div>
             ) : queries.length > 0 ? (
               <div className="query-list">
-                {queries.map(query => (
-                  <div key={query._id} className={`query-card ${query.status}`} data-aos="fade-up">
-                    <div className="query-header">
-                      <div className="query-meta">
-                        <span className="student-name">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="meta-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                          {query.studentName || 'Student'}
-                        </span>
-                        <span className="query-date">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="meta-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                          {formatDate(query.createdAt)}
-                        </span>
-                      </div>
-                      <div className={`status-badge ${query.status}`}>
-                        {query.status.charAt(0).toUpperCase() + query.status.slice(1)}
-                      </div>
-                    </div>
-                    
-                    <div className="query-content">
-                      <p>{query.text}</p>
-                    </div>
-                    
-                    {query.answer && (
-                      <div className="query-response">
-                        <h4>Your Response:</h4>
-                        <p>{query.answer}</p>
-                        <div className="response-date">
-                          Answered on {query.answeredAt ? formatDate(query.answeredAt) : 'N/A'}
+                {queries
+                  .filter(query => filterStatus === 'all' || query.status === filterStatus)
+                  .map(query => (
+                    <div 
+                      key={query._id} 
+                      id={`query-card-${query._id}`}
+                      className={`query-card ${query.status}`} 
+                      data-aos="fade-up"
+                    >
+                      <div className="query-header">
+                        <div className="query-meta">
+                          <span className="student-name">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="meta-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            {query.studentName || 'Student'}
+                          </span>
+                          <span className="query-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="meta-icon"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            {formatDate(query.createdAt)}
+                          </span>
+                        </div>
+                        <div className={`status-badge ${query.status}`}>
+                          {query.status.charAt(0).toUpperCase() + query.status.slice(1)}
                         </div>
                       </div>
-                    )}
-                    
-                    {query.status === 'pending' && (
-                      <div className="query-reply-form">
-                        <h4>Reply to this query:</h4>
-                        <textarea
-                          placeholder="Type your response here..."
-                          value={responseText[query._id] || ''}
-                          onChange={(e) => handleResponseChange(query._id, e.target.value)}
-                        ></textarea>
-                        
-                        <div className="form-actions">
-                          <button 
-                            className="submit-response-btn"
-                            onClick={() => handleSubmitResponse(query._id)}
-                            disabled={submittingResponse[query._id] || !responseText[query._id] || responseText[query._id].trim() === ''}
-                          >
-                            {submittingResponse[query._id] ? 'Submitting...' : 'Submit Response'}
-                          </button>
+                      
+                      <div className="query-content">
+                        <p>{query.text}</p>
+                      </div>
+                      
+                      {query.answer && (
+                        <div className="query-response">
+                          <h4>Your Response:</h4>
+                          {/* Access the text property of the answer object */}
+                          <p>{typeof query.answer === 'object' ? query.answer.text : query.answer}</p>
+                          <div className="response-date">
+                            {/* Make sure we're accessing the date correctly */}
+                            Answered on {
+                              query.answer.answeredAt 
+                              ? formatDate(query.answer.answeredAt) 
+                              : (query.answeredAt ? formatDate(query.answeredAt) : 'N/A')
+                            }
+                          </div>
+                        </div>
+                      )}
+                      {query.status === 'pending' && (
+                        <div className="query-reply-form">
+                          <h4>Reply to this query:</h4>
+                          <textarea
+                            placeholder="Type your response here..."
+                            value={responseText[query._id] || ''}
+                            onChange={(e) => handleResponseChange(query._id, e.target.value)}
+                          ></textarea>
                           
-                          {responseStatus[query._id] && (
-                            <div className={`response-status ${responseStatus[query._id].success ? 'success' : 'error'}`}>
-                              {responseStatus[query._id].message}
-                            </div>
-                          )}
+                          <div className="form-actions">
+                            <button 
+                              className="submit-response-btn"
+                              onClick={() => handleSubmitResponse(query._id)}
+                              disabled={submittingResponse[query._id] || !responseText[query._id] || responseText[query._id].trim() === ''}
+                            >
+                              {submittingResponse[query._id] ? 'Submitting...' : 'Submit Response'}
+                            </button>
+                            
+                            {responseStatus[query._id] && (
+                              <div className={`response-status ${responseStatus[query._id].success ? 'success' : 'error'}`}>
+                                {responseStatus[query._id].message}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
               </div>
             ) : (
               <div className="empty-state">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="empty-icon"><circle cx="12" cy="12" r="10"></circle><path d="M8 15h8"></path><path d="M9 9h.01"></path><path d="M15 9h.01"></path></svg>
-                <p>No queries at the moment</p>
+                <p>No queries {filterStatus !== 'all' ? `with status "${filterStatus}"` : ''} at the moment</p>
               </div>
             )}
           </div>
         )}
       </div>
-
-      {/* <Footer /> */}
     </div>
   );
 };

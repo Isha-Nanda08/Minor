@@ -1,4 +1,4 @@
-// src/pages/Dashboard.js
+// Update to src/pages/Dashboard.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Alert, Button, TextField, Paper, Typography, Snackbar } from "@mui/material";
@@ -10,7 +10,9 @@ import "../styles/Dashboard.css";
 import CompanyCalendar from "../components/CompanyCalender";
 import api from "../Api";
 import PlacementBulletin from "../components/student_bulletien";
-import FAQ from "../components/FAQ";
+import FAQ from "../components/FAQ2";
+import StudentQueries from "../components/studentQueries"; // Import the new component
+import StudentNav from "../components/studentnav";
 
 const Dashboard = () => {
   const [stream, setStream] = useState("");
@@ -24,6 +26,7 @@ const Dashboard = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("Your query has been submitted successfully!");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [queriesRefreshKey, setQueriesRefreshKey] = useState(0); // Used to trigger queries refresh
 
   const navigate = useNavigate();
 
@@ -115,6 +118,9 @@ const Dashboard = () => {
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
       setQuery("");
+      
+      // Refresh the student queries component
+      setQueriesRefreshKey(prevKey => prevKey + 1);
     } catch (error) {
       console.error("Query submission error:", error);
       console.error("Response status:", error.response?.status);
@@ -160,6 +166,7 @@ const Dashboard = () => {
             <p>Welcome, {userData.name || userData.email}</p>
           </div>
         )}
+        <StudentNav/>
       </div>
 
       <marquee className="marquee-text">New Companies For Different Streams In Institute. Do Check It!!!</marquee>
@@ -176,6 +183,17 @@ const Dashboard = () => {
             </Alert>
           </div>
         </div>
+        
+        {/* Student Queries Section - Show answers from PR */}
+        <motion.div 
+          key={queriesRefreshKey}
+          className="student-queries-section"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <StudentQueries />
+        </motion.div>
         
         {/* New Query Section */}
         <motion.div 
